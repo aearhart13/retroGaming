@@ -9,10 +9,12 @@
 <body>
   <div class="terminal">
     <h1 id="game-title">🎵 Guess the Song 🎵</h1>
-    <p>Type the code below to play the song:</p>
+    <p>Type the code below to play the song</p>
     <pre id="code-output"></pre>
-    <p id="current-line">Type this: </p>
-    <input type="text" id="code-input" autofocus />
+    <div id="typing-section" style="display: none;">
+      <p id="current-line">Type this: </p>
+      <input type="text" id="code-input" autofocus />
+    </div>    
     <div id="guess-section" style="display:none;">
       <p>🎧 What song did you just create?</p>
       <input type="text" id="song-guess" placeholder="Enter your guess..." />

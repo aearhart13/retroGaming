@@ -55,6 +55,7 @@ function startGame() {
   timeLeft = 30;
   currentLine = 0;
 
+  document.getElementById('typing-section').style.display = 'block';
   document.getElementById('code-output').textContent = '';
   document.getElementById('timer').textContent = timeLeft;
   document.getElementById('code-input').disabled = false;
@@ -93,13 +94,14 @@ function startTimer() {
   timer = setInterval(() => {
     timeLeft--;
     document.getElementById('timer').textContent = timeLeft;
+    
     if (timeLeft <= 0) {
       clearInterval(timer);
       document.getElementById('code-input').disabled = true;
       document.getElementById('current-line').textContent = "⏰ Time's up!";
-
-      playSong(() => {
-        console.log("⏰ Time’s up. Showing guess section.");
+    
+      playSongFromInput(() => {
+        console.log("🎵 Played only typed portion. Showing guess section.");
         const guessBox = document.getElementById('guess-section');
         guessBox.style.display = 'block';
         document.getElementById('song-guess').focus();
@@ -135,6 +137,40 @@ function playSong(onFinished) {
   setTimeout(() => {
     console.log("✅ Melody finished.");
     onFinished?.(); // call the guess section
+  }, totalDuration + 300);
+}
+
+function playSongFromInput(onFinished) {
+  const songCode = document.getElementById('code-output').textContent
+    .split('\n')
+    .filter(line => line.startsWith('PLAY'));
+    
+  const melody = songCode.flatMap(line => line.slice(6, -1).split(' '));
+  const noteDuration = 500;
+  const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+
+  if (melody.length === 0) {
+    console.log("⚠️ No input melody to play.");
+    onFinished?.();
+    return;
+  }
+
+  melody.forEach((note, i) => {
+    setTimeout(() => {
+      const osc = audioContext.createOscillator();
+      osc.type = 'square';
+      osc.frequency.setValueAtTime(noteToFrequency(note), audioContext.currentTime);
+      osc.connect(audioContext.destination);
+      osc.start();
+      osc.stop(audioContext.currentTime + 0.4);
+    }, i * noteDuration);
+  });
+
+  const totalDuration = melody.length * noteDuration;
+
+  setTimeout(() => {
+    console.log("🎵 Partial melody finished.");
+    onFinished?.();
   }, totalDuration + 300);
 }
 
