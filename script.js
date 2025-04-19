@@ -95,8 +95,15 @@ function startTimer() {
       clearInterval(timer);
       document.getElementById('code-input').disabled = true;
       document.getElementById('current-line').textContent = "⏰ Time's up!";
-      playSong();
-    }
+    
+      playSong(() => {
+        console.log("🎵 Time’s up melody finished, showing guess input");
+        const guessBox = document.getElementById('guess-section');
+        guessBox.style.display = 'block';
+        guessBox.scrollIntoView({ behavior: 'smooth' });
+        document.getElementById('song-guess').focus();
+      });
+    }    
   }, 1000);
 }
 
