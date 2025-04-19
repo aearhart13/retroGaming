@@ -44,6 +44,7 @@ let timeLeft = 30;
 let currentLine = 0;
 let codeLines = [];
 let correctAnswer = '';
+const melodyDuration = codeLines.flatMap(line => line.slice(6, -1).split(' ')).length * 500;
 
 
 function startGame() {
@@ -153,7 +154,7 @@ document.getElementById('code-input').addEventListener('input', (event) => {
         setTimeout(() => {
           document.getElementById('guess-section').style.display = 'block';
           document.getElementById('song-guess').focus();
-        }, 500); // Slight delay so audio starts before guess input
+        }, melodyDuration + 500); // add buffer after song
       }
   } else {
     // Check if it's a wrong input (but not just partially incomplete)
