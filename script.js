@@ -95,17 +95,16 @@ function startTimer() {
       clearInterval(timer);
       document.getElementById('code-input').disabled = true;
       document.getElementById('current-line').textContent = "⏰ Time's up!";
-    
+
       playSong(() => {
-        console.log("🎵 Time’s up melody finished, showing guess input");
+        console.log("⏰ Time’s up. Showing guess section.");
         const guessBox = document.getElementById('guess-section');
         guessBox.style.display = 'block';
-        guessBox.scrollIntoView({ behavior: 'smooth' });
         document.getElementById('song-guess').focus();
       });
-    }    
+    }
   }, 1000);
-}
+}s
 
 function playSong(onFinished) {
   const melody = codeLines.flatMap(line => line.slice(6, -1).split(' '));
@@ -113,8 +112,8 @@ function playSong(onFinished) {
   const audioContext = new (window.AudioContext || window.webkitAudioContext)();
 
   if (melody.length === 0) {
-    console.log("No melody to play");
-    onFinished(); // Show guess section anyway
+    console.log("⚠️ No melody to play. Showing guess prompt anyway.");
+    onFinished?.();
     return;
   }
 
@@ -131,15 +130,11 @@ function playSong(onFinished) {
 
   const totalDuration = melody.length * noteDuration;
 
-  // 🔔 Call the callback after the final note
   setTimeout(() => {
-    console.log("🎵 Melody finished playing");
-    if (typeof onFinished === "function") {
-      onFinished();
-    }
-  }, totalDuration + 100);
+    console.log("✅ Melody finished.");
+    onFinished?.(); // call the guess section
+  }, totalDuration + 300);
 }
-
 
 function noteToFrequency(note) {
   const frequencies = {
@@ -174,13 +169,13 @@ document.getElementById('code-input').addEventListener('input', (event) => {
         inputBox.disabled = true;
       
         playSong(() => {
-          console.log("🎵 Melody finished, showing guess input");
+          console.log("🎉 All lines typed. Showing guess section.");
           const guessBox = document.getElementById('guess-section');
           guessBox.style.display = 'block';
-          guessBox.scrollIntoView({ behavior: 'smooth' });
           document.getElementById('song-guess').focus();
         });
-      }            
+      }
+             
   } else {
     // Check if it's a wrong input (but not just partially incomplete)
     if (!expected.startsWith(currentInput)) {
