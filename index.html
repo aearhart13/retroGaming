@@ -8,10 +8,12 @@
 </head>
 <body>
   <div class="terminal">
-    <h1>Welcome to the Retro Melody Game</h1>
-    <p>Type the code below to play "Mary Had a Little Lamb":</p>
+    <h1>Mary Had a Little Lamb</h1>
+    <p>Type the code below to play the song:</p>
     <pre id="code-output"></pre>
-    <button onclick="playMelody()">Run Code</button>
+    <input type="text" id="code-input" autofocus />
+    <p>Time left: <span id="timer">30</span>s</p>
+    <button onclick="startGame()">Start</button>
   </div>
   <script src="script.js"></script>
 </body>

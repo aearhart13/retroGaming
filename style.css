@@ -1,29 +1,38 @@
 body {
-    font-family: 'Courier New', monospace;
-    background-color: #000;
-    color: #0f0;
-    text-align: center;
-    padding: 20px;
-  }
-  
-  .terminal {
-    border: 2px solid #0f0;
-    padding: 20px;
-    width: 80%;
-    margin: 0 auto;
-    background-color: #222;
-  }
-  
-  button {
-    background-color: #0f0;
-    color: #000;
-    border: none;
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-  }
-  
-  button:hover {
-    background-color: #080;
-  }
-  
+  font-family: 'Courier New', monospace;
+  background-color: #000;
+  color: #0f0;
+  text-align: center;
+  padding: 20px;
+}
+
+.terminal {
+  border: 2px solid #0f0;
+  padding: 20px;
+  width: 80%;
+  margin: 0 auto;
+  background-color: #222;
+}
+
+input {
+  background-color: #333;
+  color: #0f0;
+  border: none;
+  padding: 10px;
+  font-size: 18px;
+  width: 80%;
+  margin-top: 10px;
+}
+
+button {
+  background-color: #0f0;
+  color: #000;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #080;
+}
