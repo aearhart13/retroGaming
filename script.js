@@ -100,10 +100,16 @@ function startTimer() {
   }, 1000);
 }
 
-function playSong(callbackAfterMelody) {
+function playSong(onFinished) {
   const melody = codeLines.flatMap(line => line.slice(6, -1).split(' '));
   const noteDuration = 500;
   const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+
+  if (melody.length === 0) {
+    console.log("No melody to play");
+    onFinished(); // Show guess section anyway
+    return;
+  }
 
   melody.forEach((note, i) => {
     setTimeout(() => {
@@ -116,10 +122,17 @@ function playSong(callbackAfterMelody) {
     }, i * noteDuration);
   });
 
-  // After full melody plays + small buffer, run callback
-  const totalTime = melody.length * noteDuration;
-  setTimeout(callbackAfterMelody, totalTime + 200); // Add a bit of buffer
+  const totalDuration = melody.length * noteDuration;
+
+  // 🔔 Call the callback after the final note
+  setTimeout(() => {
+    console.log("🎵 Melody finished playing");
+    if (typeof onFinished === "function") {
+      onFinished();
+    }
+  }, totalDuration + 100);
 }
+
 
 function noteToFrequency(note) {
   const frequencies = {
@@ -160,7 +173,7 @@ document.getElementById('code-input').addEventListener('input', (event) => {
           guessBox.scrollIntoView({ behavior: 'smooth' });
           document.getElementById('song-guess').focus();
         });
-      }      
+      }            
   } else {
     // Check if it's a wrong input (but not just partially incomplete)
     if (!expected.startsWith(currentInput)) {
