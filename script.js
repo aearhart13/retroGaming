@@ -101,9 +101,8 @@ function startTimer() {
 }
 
 function playSong() {
-  let songCode = document.getElementById('code-output').textContent.split('\n').filter(line => line.startsWith('PLAY'));
-  let melody = songCode.flatMap(line => line.slice(6, -1).split(' '));
-  let audioContext = new (window.AudioContext || window.webkitAudioContext)();
+  const melody = codeLines.flatMap(line => line.slice(6, -1).split(' '));
+  const audioContext = new (window.AudioContext || window.webkitAudioContext)();
 
   melody.forEach((note, i) => {
     setTimeout(() => {
@@ -115,6 +114,8 @@ function playSong() {
       osc.stop(audioContext.currentTime + 0.4);
     }, i * 500);
   });
+
+  return melody.length * 500; // return total duration
 }
 
 function noteToFrequency(note) {
@@ -148,15 +149,12 @@ document.getElementById('code-input').addEventListener('input', (event) => {
       if (currentLine === codeLines.length) {
         clearInterval(timer);
         inputBox.disabled = true;
-        playSong();
-
-        const melody = codeLines.flatMap(line => line.slice(6, -1).split(' '));
-        const melodyDuration = melody.length * 500;
-
+        const melodyDuration = playSong(); // 💡 Capture return value
+      
         setTimeout(() => {
           document.getElementById('guess-section').style.display = 'block';
           document.getElementById('song-guess').focus();
-        }, melodyDuration + 500); // add buffer after song
+        }, melodyDuration + 500);
       }
   } else {
     // Check if it's a wrong input (but not just partially incomplete)
