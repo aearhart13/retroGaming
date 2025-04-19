@@ -36,3 +36,8 @@ button {
 button:hover {
   background-color: #080;
 }
+
+input.error {
+  background-color: #500;
+  border: 1px solid #f00;
+}

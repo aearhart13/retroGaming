@@ -12,13 +12,23 @@ let codeLines = [
 let currentLine = 0;
 
 function startGame() {
-  document.getElementById('code-input').value = '';
+  timeLeft = 30;
+  currentLine = 0;
   document.getElementById('code-output').textContent = '';
   document.getElementById('timer').textContent = timeLeft;
   document.getElementById('code-input').disabled = false;
+  document.getElementById('code-input').value = '';
   document.getElementById('code-input').focus();
-  currentLine = 0;
+  showNextLine();
   startTimer();
+}
+
+function showNextLine() {
+  if (currentLine < codeLines.length) {
+    document.getElementById('current-line').textContent = `Type this: ${codeLines[currentLine]}`;
+  } else {
+    document.getElementById('current-line').textContent = `✅ All lines completed!`;
+  }
 }
 
 function startTimer() {
@@ -28,6 +38,7 @@ function startTimer() {
     if (timeLeft <= 0) {
       clearInterval(timer);
       document.getElementById('code-input').disabled = true;
+      document.getElementById('current-line').textContent = "⏰ Time's up!";
       playSong();
     }
   }, 1000);
@@ -35,19 +46,18 @@ function startTimer() {
 
 function playSong() {
   let songCode = document.getElementById('code-output').textContent.split('\n').filter(line => line.startsWith('PLAY'));
-  let melody = songCode.map(line => line.slice(6, -1).split(' '));
+  let melody = songCode.flatMap(line => line.slice(6, -1).split(' '));
   let audioContext = new (window.AudioContext || window.webkitAudioContext)();
-  melody.forEach((notes, index) => {
+
+  melody.forEach((note, i) => {
     setTimeout(() => {
-      notes.forEach((note, noteIndex) => {
-        let oscillator = audioContext.createOscillator();
-        oscillator.type = 'square';
-        oscillator.frequency.setValueAtTime(noteToFrequency(note), audioContext.currentTime + noteIndex * 0.5);
-        oscillator.connect(audioContext.destination);
-        oscillator.start();
-        oscillator.stop(audioContext.currentTime + 0.5);
-      });
-    }, index * 1000);
+      const osc = audioContext.createOscillator();
+      osc.type = 'square';
+      osc.frequency.setValueAtTime(noteToFrequency(note), audioContext.currentTime);
+      osc.connect(audioContext.destination);
+      osc.start();
+      osc.stop(audioContext.currentTime + 0.4);
+    }, i * 500);
   });
 }
 
@@ -65,14 +75,53 @@ function noteToFrequency(note) {
 }
 
 document.getElementById('code-input').addEventListener('input', (event) => {
-  if (event.target.value === codeLines[currentLine]) {
-    document.getElementById('code-output').textContent += codeLines[currentLine] + '\n';
+  const inputBox = document.getElementById('code-input');
+  const expected = codeLines[currentLine];
+  const currentInput = event.target.value;
+
+  if (currentInput === expected) {
+    // Correct entry
+    document.getElementById('code-output').textContent += expected + '\n';
     currentLine++;
     event.target.value = '';
+    inputBox.classList.remove('error');
+    document.getElementById('current-line').textContent = currentLine < codeLines.length
+      ? `Type this: ${codeLines[currentLine]}`
+      : '✅ All lines complete!';
+    
     if (currentLine === codeLines.length) {
       clearInterval(timer);
-      document.getElementById('code-input').disabled = true;
+      inputBox.disabled = true;
       playSong();
+    }
+  } else {
+    // Check if it's a wrong input (but not just partially incomplete)
+    if (!expected.startsWith(currentInput)) {
+      inputBox.classList.add('error');
+      document.getElementById('current-line').textContent = `❌ Incorrect. Try again: ${expected}`;
+      beep(); // ← Add this line
+    } else {
+      inputBox.classList.remove('error');
+      showNextLine();
     }
   }
 });
+
+function beep() {
+  const context = new (window.AudioContext || window.webkitAudioContext)();
+  const oscillator = context.createOscillator();
+  const gain = context.createGain();
+
+  oscillator.type = 'square';
+  oscillator.frequency.setValueAtTime(880, context.currentTime); // A5 note
+  gain.gain.setValueAtTime(0.2, context.currentTime); // Not too loud
+
+  oscillator.connect(gain);
+  gain.connect(context.destination);
+
+  oscillator.start();
+  oscillator.stop(context.currentTime + 0.1); // Short beep (100ms)
+}
+
+
+
