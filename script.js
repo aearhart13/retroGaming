@@ -1,3 +1,5 @@
+console.log("✅ JavaScript loaded!");
+
 const songs = [
   {
     title: "Mary Had a Little Lamb",
