@@ -8,11 +8,18 @@
 </head>
 <body>
   <div class="terminal">
-    <h1>Mary Had a Little Lamb</h1>
+    <h1 id="game-title">🎵 Guess the Song 🎵</h1>
     <p>Type the code below to play the song:</p>
     <pre id="code-output"></pre>
     <p id="current-line">Type this: </p>
     <input type="text" id="code-input" autofocus />
+    <div id="guess-section" style="display:none;">
+      <p>🎧 What song did you just create?</p>
+      <input type="text" id="song-guess" placeholder="Enter your guess..." />
+      <button onclick="submitGuess()">Submit Guess</button>
+      <p id="guess-feedback"></p>
+      <button onclick="startGame()">🔁 Play Again</button>
+    </div>    
     <p>Time left: <span id="timer">30</span>s</p>
     <button onclick="startGame()">Start</button>
   </div>

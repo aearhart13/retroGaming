@@ -1,17 +1,73 @@
+const songs = [
+  {
+    title: "Mary Had a Little Lamb",
+    codeLines: [
+      'PLAY "E D C D"',
+      'PLAY "E E E"',
+      'PLAY "D D D"',
+      'PLAY "E G G"',
+      'PLAY "E D C D"',
+      'PLAY "E E E E"',
+      'PLAY "D D E D C"'
+    ]
+  },
+  {
+    title: "Twinkle Twinkle Little Star",
+    codeLines: [
+      'PLAY "C C G G"',
+      'PLAY "A A G"',
+      'PLAY "F F E E"',
+      'PLAY "D D C"',
+      'PLAY "G G F F"',
+      'PLAY "E E D"',
+      'PLAY "G G F F"',
+      'PLAY "E E D"',
+      'PLAY "C C G G"',
+      'PLAY "A A G"',
+      'PLAY "F F E E"',
+      'PLAY "D D C"'
+    ]
+  },
+  {
+    title: "Happy Birthday",
+    codeLines: [
+      'PLAY "C C D C F E"',
+      'PLAY "C C D C G F"',
+      'PLAY "C C C A F E D"',
+      'PLAY "Bb Bb A F G F"'
+    ]
+  }
+];
+
 let timer;
 let timeLeft = 30;
-let codeLines = [
-  'PLAY "E D C D"',
-  'PLAY "E E E"',
-  'PLAY "D D D"',
-  'PLAY "E G G"',
-  'PLAY "E D C D"',
-  'PLAY "E E E E"',
-  'PLAY "D D E D C"'
-];
 let currentLine = 0;
+let codeLines = [];
+let correctAnswer = '';
+
 
 function startGame() {
+  const randomSong = songs[Math.floor(Math.random() * songs.length)];
+  codeLines = randomSong.codeLines;
+  correctAnswer = randomSong.title;
+
+  timeLeft = 30;
+  currentLine = 0;
+
+  document.getElementById('code-output').textContent = '';
+  document.getElementById('timer').textContent = timeLeft;
+  document.getElementById('code-input').disabled = false;
+  document.getElementById('code-input').value = '';
+  document.getElementById('code-input').focus();
+  document.getElementById('guess-section').style.display = 'none';
+  document.getElementById('guess-feedback').textContent = '';
+  
+  showNextLine();
+  startTimer();
+}
+
+
+function initGame() {
   timeLeft = 30;
   currentLine = 0;
   document.getElementById('code-output').textContent = '';
@@ -22,6 +78,7 @@ function startGame() {
   showNextLine();
   startTimer();
 }
+
 
 function showNextLine() {
   if (currentLine < codeLines.length) {
@@ -89,11 +146,15 @@ document.getElementById('code-input').addEventListener('input', (event) => {
       ? `Type this: ${codeLines[currentLine]}`
       : '✅ All lines complete!';
     
-    if (currentLine === codeLines.length) {
-      clearInterval(timer);
-      inputBox.disabled = true;
-      playSong();
-    }
+      if (currentLine === codeLines.length) {
+        clearInterval(timer);
+        inputBox.disabled = true;
+        playSong();
+        setTimeout(() => {
+          document.getElementById('guess-section').style.display = 'block';
+          document.getElementById('song-guess').focus();
+        }, 500); // Slight delay so audio starts before guess input
+      }
   } else {
     // Check if it's a wrong input (but not just partially incomplete)
     if (!expected.startsWith(currentInput)) {
@@ -123,5 +184,18 @@ function beep() {
   oscillator.stop(context.currentTime + 0.1); // Short beep (100ms)
 }
 
+function submitGuess() {
+  const userGuess = document.getElementById('song-guess').value.trim().toLowerCase();
+  const answer = correctAnswer.toLowerCase();
+  const feedback = document.getElementById('guess-feedback');
+
+  if (userGuess && answer.includes(userGuess) || userGuess.includes(answer)) {
+    feedback.textContent = `🎉 Correct! It was '${correctAnswer}'!`;
+    feedback.style.color = '#0f0';
+  } else {
+    feedback.textContent = `❌ Not quite! The song was '${correctAnswer}'.`;
+    feedback.style.color = '#f00';
+  }
+}
 
 
