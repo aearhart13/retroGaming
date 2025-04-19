@@ -106,7 +106,7 @@ function startTimer() {
       });
     }
   }, 1000);
-}s
+}
 
 function playSong(onFinished) {
   const melody = codeLines.flatMap(line => line.slice(6, -1).split(' '));
