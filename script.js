@@ -44,8 +44,6 @@ let timeLeft = 30;
 let currentLine = 0;
 let codeLines = [];
 let correctAnswer = '';
-const melodyDuration = codeLines.flatMap(line => line.slice(6, -1).split(' ')).length * 500;
-
 
 function startGame() {
   const randomSong = songs[Math.floor(Math.random() * songs.length)];
@@ -104,6 +102,7 @@ function startTimer() {
 
 function playSong() {
   let songCode = document.getElementById('code-output').textContent.split('\n').filter(line => line.startsWith('PLAY'));
+  const melodyDuration = codeLines.flatMap(line => line.slice(6, -1).split(' ')).length * 500;
   let melody = songCode.flatMap(line => line.slice(6, -1).split(' '));
   let audioContext = new (window.AudioContext || window.webkitAudioContext)();
 
