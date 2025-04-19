@@ -41,3 +41,9 @@ input.error {
   background-color: #500;
   border: 1px solid #f00;
 }
+
+#guess-section {
+  border-top: 1px dashed #0f0;
+  padding-top: 20px;
+  margin-top: 20px;
+}
