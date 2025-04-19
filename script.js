@@ -102,7 +102,6 @@ function startTimer() {
 
 function playSong() {
   let songCode = document.getElementById('code-output').textContent.split('\n').filter(line => line.startsWith('PLAY'));
-  const melodyDuration = codeLines.flatMap(line => line.slice(6, -1).split(' ')).length * 500;
   let melody = songCode.flatMap(line => line.slice(6, -1).split(' '));
   let audioContext = new (window.AudioContext || window.webkitAudioContext)();
 
@@ -150,6 +149,10 @@ document.getElementById('code-input').addEventListener('input', (event) => {
         clearInterval(timer);
         inputBox.disabled = true;
         playSong();
+
+        const melody = codeLines.flatMap(line => line.slice(6, -1).split(' '));
+        const melodyDuration = melody.length * 500;
+
         setTimeout(() => {
           document.getElementById('guess-section').style.display = 'block';
           document.getElementById('song-guess').focus();
