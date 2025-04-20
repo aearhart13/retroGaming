@@ -160,18 +160,20 @@ code {
 }
 .input-with-icon {
   position: relative;
-  display: inline-block;
+  display: block; /* or flex if needed */
   width: 80%;
+  margin: 0 auto;
 }
 
 #song-guess {
-  padding-right: 5px; /* space for the icon */
+  width: 100%;
+  padding-right: 32px; /* enough space for the icon inside */
 }
 
 #relisten-button {
   position: absolute;
   top: 50%;
-  right: 5%;
+  inset-inline-end: 8px;
   transform: translateY(-50%);
   background: transparent;
   border: none;
