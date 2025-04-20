@@ -167,7 +167,7 @@ code {
 
 .input-with-icon input {
   width: 100%;
-  padding-right: 40px; /* Leave space for the icon */
+  padding-right: 10px; /* Leave space for the icon */
   background-color: #333;
   color: #0f0;
   border: none;
