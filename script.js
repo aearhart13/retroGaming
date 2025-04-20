@@ -1,6 +1,6 @@
 console.log("✅ JavaScript loaded!");
 
-const songs = [
+const classicSongs = [
   {
     title: "Mary Had a Little Lamb",
     codeLines: [
@@ -38,7 +38,64 @@ const songs = [
       'PLAY "C C C A F E D"',
       'PLAY "Bb Bb A F G F"'
     ]
+  },
+  {
+    title: "Row Row Row Your Boat",
+    codeLines: [
+      'PLAY "C C C D E"',
+      'PLAY "E D E F G"',
+      'PLAY "C C C G G"',
+      'PLAY "E E D"'
+    ]
+  },
+   {
+    title: "Jingle Bells",
+    codeLines: [
+      'PLAY "E E E"',
+      'PLAY "E E E"',
+      'PLAY "E G C D E"',
+      'PLAY "F F F F F E E"',
+      'PLAY "E E D D E D G"'
+    ]
   }
+];
+const synthwaveSongs = [
+  {
+    title: "Seven Nation Army",
+    codeLines: [
+      'PLAY "E E G E D C B"',
+      'PLAY "E E G E D C B"',
+      'PLAY "C B C D E"',
+      'PLAY "E D C B"'
+    ]
+  },
+  {
+    title: "Take On Me",
+    codeLines: [
+      'PLAY "B D# E F# E D# B"',
+      'PLAY "B D# E F# E D# C#"',
+      'PLAY "A# B C# D# C# B A#"',
+      'PLAY "G# A# B C# B A# G#"'
+    ]
+  },
+  {
+    title: "Sweet Dreams",
+    codeLines: [
+      'PLAY "C C C C A# A# G G"',
+      'PLAY "F F G G A# A# C C"',
+      'PLAY "C C A# A# G G F F"',
+      'PLAY "F F G G A# A# C C"'
+    ]
+  },
+  {
+    title: "Running Up That Hill",
+    codeLines: [
+      'PLAY "C D F G F D"',
+      'PLAY "C D F G A G"',
+      'PLAY "F G A G F D"',
+      'PLAY "C C C C C"'
+    ]
+  }  
 ];
 
 let timer;
@@ -47,9 +104,21 @@ let currentLine = 0;
 let codeLines = [];
 let correctAnswer = '';
 
+function getAvailableSongs() {
+  const wins = parseInt(localStorage.getItem('wins') || '0');
+  console.log(`🏆 Player wins: ${wins}`);
+
+  if (wins >= 3) {
+    return classicSongs.concat(synthwaveSongs);
+  }
+
+  return classicSongs;
+}
+
 function startGame() {
   document.getElementById('start-button').style.display = 'none';
-  const randomSong = songs[Math.floor(Math.random() * songs.length)];
+  const availableSongs = getAvailableSongs();
+  const randomSong = availableSongs[Math.floor(Math.random() * availableSongs.length)];  
   codeLines = randomSong.codeLines;
   correctAnswer = randomSong.title;
 
@@ -67,6 +136,7 @@ function startGame() {
   
   showNextLine();
   startTimer();
+  updateUnlockStatus()
 }
 
 
@@ -182,8 +252,13 @@ function noteToFrequency(note) {
     'E': 329.63,
     'F': 349.23,
     'G': 392.00,
+    'G#': 415.30,
     'A': 440.00,
-    'B': 493.88
+    'B': 493.88,
+    'D#': 311.13,
+    'F#': 369.99,
+    'A#': 466.16,
+    'C#': 277.18
   };
   return frequencies[note] || 440;
 }
@@ -252,10 +327,24 @@ function submitGuess() {
   if (userGuess && answer.includes(userGuess) || userGuess.includes(answer)) {
     feedback.textContent = `🎉 Correct! It was '${correctAnswer}'!`;
     feedback.style.color = '#0f0';
+    let wins = parseInt(localStorage.getItem('wins') || '0');
+    wins++;
+    localStorage.setItem('wins', wins);
+    if (wins === 3) {
+      alert("🎉 You unlocked the Synthwave Pack!");
+    }
   } else {
     feedback.textContent = `❌ Not quite! The song was '${correctAnswer}'.`;
     feedback.style.color = '#f00';
   }
+  updateUnlockStatus()
 }
+
+function updateUnlockStatus() {
+  const wins = parseInt(localStorage.getItem('wins') || '0');
+  document.getElementById('unlocked-status').textContent =
+    wins >= 3 ? "Unlocked Songs: Classics + Synthwave Pack" : `Unlocked Songs: Classics (${wins}/3 correct guesses)`;
+}
+
 
 
