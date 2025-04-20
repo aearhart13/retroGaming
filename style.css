@@ -167,13 +167,13 @@ code {
 
 #song-guess {
   width: 100%;
-  padding-right: 4px; /* enough space for the icon inside */
+  padding-right: 32px; /* enough space for the icon inside */
 }
 
 #relisten-button {
   position: absolute;
   top: 50%;
-  inset-inline-end: 4px;
+  right: 10px;
   transform: translateY(-50%);
   background: transparent;
   border: none;
