@@ -133,7 +133,9 @@ function startGame() {
   document.getElementById('code-input').focus();
   document.getElementById('guess-section').style.display = 'none';
   document.getElementById('guess-feedback').textContent = '';
-  
+  // Clear previous guess input and feedback
+  document.getElementById('song-guess').value = '';
+
   showNextLine();
   startTimer();
   updateUnlockStatus()
