@@ -326,9 +326,9 @@ document.getElementById('code-input').addEventListener('input', (event) => {
           const guessBox = document.getElementById('guess-section');
           guessBox.style.display = 'block';
           document.getElementById('song-guess').focus();
-      
-          // Set special flag to track this is a recovery guess
           guessBox.dataset.recovery = "true";
+          document.getElementById('relisten-button').style.display = 'inline-block';
+          document.getElementById('relisten-button').disabled = false;
         });
       }      
     } else {
