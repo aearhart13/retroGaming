@@ -90,3 +90,14 @@ input.error {
   font-size: 18px;
 }
 
+.guess-actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.guess-actions button {
+  flex: 0 1 auto;
+}
+

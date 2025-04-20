@@ -20,8 +20,12 @@
     <div id="guess-section" style="display:none;">
       <p>🎧 What song did you just create?</p>
       <input type="text" id="song-guess" placeholder="Enter your guess..." />
-      <button id="relisten-button" onclick="relisten()">🔁 Hear Again</button>
-      <button onclick="submitGuess()">Submit Guess</button>
+      
+      <div class="guess-actions">
+        <button id="relisten-button" onclick="relisten()">🔁 Hear Again</button>
+        <button onclick="submitGuess()">Submit Guess</button>
+      </div>
+      
       <p id="guess-feedback"></p>
       <button onclick="startGame()">🔁 Play Again</button>
     </div>    
