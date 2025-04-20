@@ -316,14 +316,18 @@ document.getElementById('code-input').addEventListener('input', (event) => {
         inputBox.disabled = true;
         clearInterval(timer);
         document.getElementById('current-line').innerHTML =
-          `<span class="strikeout-message">💥 Too many errors! You scored ${score} points before failing.</span>`;
-        score = 0;
-        wins = 0;
-        updateScoreDisplay();
-        const guessBox = document.getElementById('guess-section');
-        guessBox.style.display = 'block';
-        document.getElementById('song-guess').focus();
-      }
+          `<span class="strikeout-message">💥 Too many errors! You get one last chance to guess the song...</span>`;
+      
+        // Play what they typed so far
+        playSongFromInput(() => {
+          const guessBox = document.getElementById('guess-section');
+          guessBox.style.display = 'block';
+          document.getElementById('song-guess').focus();
+      
+          // Set special flag to track this is a recovery guess
+          guessBox.dataset.recovery = "true";
+        });
+      }      
     } else {
       inputBox.classList.remove('error');
       showNextLine();
@@ -356,13 +360,28 @@ function beep() {
 }
 
 function submitGuess() {
+  const guessBox = document.getElementById('guess-section');
+  const isRecoveryGuess = guessBox.dataset.recovery === "true";
   const userGuess = document.getElementById('song-guess').value.trim().toLowerCase();
   const answer = correctAnswer.toLowerCase();
   const feedback = document.getElementById('guess-feedback');
-
+  
   if (userGuess && answer.includes(userGuess) || userGuess.includes(answer)) {
     feedback.textContent = `🎉 Correct! It was '${correctAnswer}'! Total score: ${score}`;
     feedback.style.color = '#0f0';
+
+    if (isRecoveryGuess) {
+      // ✨ Recover from strike-out
+      strikes = maxStrikes - 1;
+      updateStrikeDisplay();
+      document.getElementById('current-line').textContent = `👍 You're back in the game! Keep typing: ${codeLines[currentLine]}`;
+      document.getElementById('code-input').disabled = false;
+      document.getElementById('code-input').focus();
+      guessBox.style.display = 'none';
+      guessBox.dataset.recovery = "false";
+      return;
+    }
+
     let wins = parseInt(localStorage.getItem('wins') || '0');
     wins++;
     localStorage.setItem('wins', wins);
@@ -372,8 +391,16 @@ function submitGuess() {
     score += 10;
     updateScoreDisplay();
   } else {
-    feedback.textContent = `❌ Not quite! The song was '${correctAnswer}'.`;
-    feedback.style.color = '#f00';
+    if (isRecoveryGuess) {
+      feedback.textContent = `❌ Not quite! The song was '${correctAnswer}'. Game over.`;
+      feedback.style.color = '#f00';
+      document.getElementById('code-input').disabled = true;
+      guessBox.dataset.recovery = "false";
+    }
+    else {
+      feedback.textContent = `❌ Not quite! The song was '${correctAnswer}'.`;
+      feedback.style.color = '#f00';  
+    }    
   }
   //updateUnlockStatus()
 }
