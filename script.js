@@ -165,7 +165,12 @@ function initGame() {
 
 function showNextLine() {
   if (currentLine < codeLines.length) {
-    document.getElementById('current-line').innerHTML = `Type this: <code>${codeLines[currentLine]}</code>`;
+    const line = codeLines[currentLine];
+    if (line.startsWith("PLAY")) {
+      document.getElementById('current-line').innerHTML = `Type this: <code>${line}</code>`;
+    } else {
+      document.getElementById('current-line').textContent = `Type this: ${line}`;
+    }
   } else {
     document.getElementById('current-line').textContent = `✅ All lines completed!`;
   }
@@ -292,9 +297,7 @@ document.getElementById('code-input').addEventListener('input', (event) => {
     updateScoreDisplay();
     previousInputLength = 0;
   
-    document.getElementById('current-line').textContent = currentLine < codeLines.length
-      ? `Type this: ${codeLines[currentLine]}`
-      : '✅ All lines complete!';
+    showNextLine();
   
     if (currentLine === codeLines.length) {
       clearInterval(timer);

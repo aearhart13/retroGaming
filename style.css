@@ -161,13 +161,13 @@ code {
 
 .input-with-icon {
   position: relative;
-  display: inline-block;
   width: 80%;
+  margin: 0 auto;
 }
 
 .input-with-icon input {
   width: 100%;
-  padding-right: 40px; /* space for the icon */
+  padding-right: 40px; /* Leave space for the icon */
   background-color: #333;
   color: #0f0;
   border: none;
@@ -177,8 +177,8 @@ code {
 
 .input-with-icon button {
   position: absolute;
-  right: 10px;
   top: 50%;
+  right: 10px;
   transform: translateY(-50%);
   background: none;
   border: none;
