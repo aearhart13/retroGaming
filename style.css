@@ -160,14 +160,14 @@ code {
 }
 .input-with-icon {
   position: relative;
-  display: block; /* or flex if needed */
   width: 80%;
   margin: 0 auto;
 }
 
 #song-guess {
   width: 100%;
-  padding-right: 4px; /* enough space for the icon inside */
+  padding-right: 40px; /* enough space for the icon */
+  box-sizing: border-box; /* ensures padding doesn't overflow width */
 }
 
 #relisten-button {
