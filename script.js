@@ -336,6 +336,7 @@ document.getElementById('code-input').addEventListener('input', (event) => {
             guessBox.dataset.recovery = "true";
             document.getElementById('relisten-button').style.display = 'inline-block';
             document.getElementById('relisten-button').disabled = false;
+            document.querySelector('#guess-section button[onclick="submitGuess()"]').style.display = 'inline-block';
           });
         }
       }
