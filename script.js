@@ -166,7 +166,7 @@ function initGame() {
 
 function showNextLine() {
   if (currentLine < codeLines.length) {
-    document.getElementById('current-line').textContent = `Type this: ${codeLines[currentLine]}`;
+    document.getElementById('current-line').innerHTML = `Type this: <code>${codeLines[currentLine]}</code>`;
   } else {
     document.getElementById('current-line').textContent = `✅ All lines completed!`;
   }
@@ -380,16 +380,29 @@ function submitGuess() {
     feedback.style.color = '#0f0';
 
     if (isRecoveryGuess) {
-      // ✅ Recover from strike-out
+      // 🎉 Recovered! Reward with next song
       strikes = maxStrikes - 1;
       updateStrikeDisplay();
-      document.getElementById('current-line').textContent = `👍 You're back in the game! Keep typing: ${codeLines[currentLine]}`;
-      document.getElementById('code-input').disabled = false;
-      document.getElementById('code-input').focus();
       guessBox.style.display = 'none';
       guessBox.dataset.recovery = "false";
+      document.getElementById('relisten-button').style.display = 'none';
+    
+      // Show fancy transition message
+      const feedbackText = `✅ Correct! Moving to the next song...`;
+      feedback.textContent = feedbackText;
+      feedback.style.color = '#0f0';
+
+      // Optional flash animation
+      feedback.classList.add('next-transition');
+
+      setTimeout(() => {
+        feedback.textContent = '';
+        feedback.classList.remove('next-transition');
+        startGame(); // 🎵 Go!
+      }, 2000);
+        
       return;
-    }
+    }    
 
     // ✅ Normal correct guess logic
     let wins = parseInt(localStorage.getItem('wins') || '0');

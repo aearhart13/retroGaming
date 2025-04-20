@@ -101,3 +101,24 @@ input.error {
   flex: 0 1 auto;
 }
 
+.next-transition {
+  animation: flashGreen 0.5s ease-in-out 3;
+  font-weight: bold;
+}
+
+@keyframes flashGreen {
+  0%, 100% { color: #0f0; opacity: 1; }
+  50% { opacity: 0.2; }
+}
+
+code {
+  font-family: 'Courier New', monospace;
+  background-color: #111;
+  padding: 2px 6px;
+  border: 1px dashed #0f0;
+  display: inline-block;
+  margin-top: 6px;
+  color: #0f0;
+}
+
+
