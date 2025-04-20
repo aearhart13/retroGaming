@@ -167,7 +167,7 @@ code {
 
 #song-guess {
   width: 100%;
-  padding-right: 32px; /* enough space for the icon inside */
+  padding-right: 4px; /* enough space for the icon inside */
 }
 
 #relisten-button {
