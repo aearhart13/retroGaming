@@ -48,6 +48,7 @@ let codeLines = [];
 let correctAnswer = '';
 
 function startGame() {
+  document.getElementById('start-button').style.display = 'none';
   const randomSong = songs[Math.floor(Math.random() * songs.length)];
   codeLines = randomSong.codeLines;
   correctAnswer = randomSong.title;
