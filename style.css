@@ -173,7 +173,7 @@ code {
 #relisten-button {
   position: absolute;
   top: 50%;
-  inset-inline-end: 8px;
+  inset-inline-end: 4px;
   transform: translateY(-50%);
   background: transparent;
   border: none;
