@@ -127,6 +127,7 @@ function startGame() {
   const wins = parseInt(localStorage.getItem('wins') || '0');
   document.getElementById('mode-indicator').style.display = wins >= 3 ? 'block' : 'none';
   document.getElementById('relisten-button').style.display = 'none';
+  document.getElementById('max-strikes').textContent = maxStrikes;
 
   timeLeft = 30;
   currentLine = 0;
@@ -452,5 +453,6 @@ function updateScoreDisplay() {
 
 function updateStrikeDisplay() {
   document.getElementById('strike-display').textContent = strikes;
+  document.getElementById('max-strikes').textContent = maxStrikes;
 }
 
