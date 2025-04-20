@@ -35,6 +35,12 @@ button {
   vertical-align: middle;
 }
 
+#guess-section button {
+  display: block;
+  margin: 6px auto;
+  width: 200px; /* Or whatever matches your design */
+}
+
 button:hover {
   background-color: #080;
 }
