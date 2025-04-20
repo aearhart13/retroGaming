@@ -166,7 +166,7 @@ code {
 
 #song-guess {
   width: 100%;
-  padding-right: 40px; /* enough space for the icon */
+  padding-right: 20px; /* enough space for the icon */
   box-sizing: border-box; 
 }
 
