@@ -20,14 +20,13 @@
     <div id="guess-section" style="display:none;">
       <div class="guess-prompt">
         <p>🎧 What song did you just create?</p>
-        <button id="relisten-button" onclick="relisten()">🔊 Hear it again?</button>
+        <button id="relisten-button" onclick="relisten()" title="Hear it again?">🔊</button>
       </div>
       
       <input type="text" id="song-guess" placeholder="Enter your guess..." />
       
       <div class="guess-actions">
         <button onclick="submitGuess()">Submit Guess</button>
-        <button onclick="startGame()">🔁 Play Again</button>
       </div>      
       
       <p id="guess-feedback"></p>

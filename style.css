@@ -127,18 +127,17 @@ code {
 }
 
 #relisten-button {
-  background-color: #222;
+  padding: 4px 8px;
+  font-size: 16px;
+  margin: 0;
+  background-color: transparent;
   color: #0f0;
-  border: 1px dashed #0f0;
-  padding: 8px 16px;
-  font-size: 14px;
+  border: none;
   cursor: pointer;
-  margin-right: 10px;
 }
 
 #relisten-button:hover {
-  background-color: #111;
-  border-color: #6f6;
+  color: #8f8;
 }
 
 .guess-prompt {
