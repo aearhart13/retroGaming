@@ -126,6 +126,7 @@ function startGame() {
   correctAnswer = randomSong.title;
   const wins = parseInt(localStorage.getItem('wins') || '0');
   document.getElementById('mode-indicator').style.display = wins >= 3 ? 'block' : 'none';
+  document.getElementById('relisten-button').style.display = 'none';
 
   timeLeft = 30;
   currentLine = 0;
@@ -186,6 +187,8 @@ function startTimer() {
         const guessBox = document.getElementById('guess-section');
         guessBox.style.display = 'block';
         document.getElementById('song-guess').focus();
+        document.getElementById('relisten-button').style.display = 'inline-block';
+        document.getElementById('relisten-button').disabled = false;
       });
     }
   }, 1000);
@@ -400,9 +403,19 @@ function submitGuess() {
     else {
       feedback.textContent = `❌ Not quite! The song was '${correctAnswer}'.`;
       feedback.style.color = '#f00';  
-    }    
+    }
+    document.getElementById('relisten-button').style.display = 'none';    
   }
   //updateUnlockStatus()
+}
+
+function relisten() {
+  const button = document.getElementById('relisten-button');
+  button.disabled = true;
+
+  playSongFromInput(() => {
+    console.log("🔁 Replayed for recovery guess.");
+  });
 }
 
 /*function updateUnlockStatus() {
