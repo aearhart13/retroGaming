@@ -181,10 +181,10 @@ code {
   font-size: 18px;
   cursor: pointer;
   padding: 0;
-  display: inline-flex; /* shrink to icon size */
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: auto;
+  width: auto !important;
   height: auto;
   line-height: 1;
 }
