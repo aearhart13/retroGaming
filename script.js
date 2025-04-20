@@ -2,6 +2,7 @@ console.log("✅ JavaScript loaded!");
 let score = 0;
 let strikes = 0;
 const maxStrikes = 5;
+let previousInputLength = 0;
 
 const classicSongs = [
   {
@@ -278,34 +279,37 @@ document.getElementById('code-input').addEventListener('input', (event) => {
   const currentInput = event.target.value;
 
   if (currentInput === expected) {
-    // Correct entry
+    // Correct full line
     document.getElementById('code-output').textContent += expected + '\n';
     currentLine++;
     event.target.value = '';
     inputBox.classList.remove('error');
-    score += expected.length;
+    
+    // Add points for completed line (already includes keystrokes)
+    score += expected.length - previousInputLength;
     updateScoreDisplay();
+    previousInputLength = 0;
+  
     document.getElementById('current-line').textContent = currentLine < codeLines.length
       ? `Type this: ${codeLines[currentLine]}`
       : '✅ All lines complete!';
-    
+  
     if (currentLine === codeLines.length) {
       clearInterval(timer);
       inputBox.disabled = true;
-    
       playSong(() => {
-        console.log("🎉 All lines typed. Showing guess section.");
         const guessBox = document.getElementById('guess-section');
         guessBox.style.display = 'block';
         document.getElementById('song-guess').focus();
       });
-    }      
+    }
+  
   } else {
-    // Check if it's a wrong input (but not just partially incomplete)
+    // Partial input
     if (!expected.startsWith(currentInput)) {
       inputBox.classList.add('error');
       document.getElementById('current-line').textContent = `❌ Incorrect. Try again: ${expected}`;
-      beep(); 
+      beep();
       strikes++;
       updateStrikeDisplay();
       if (strikes >= maxStrikes) {
@@ -322,12 +326,16 @@ document.getElementById('code-input').addEventListener('input', (event) => {
     } else {
       inputBox.classList.remove('error');
       showNextLine();
-      if (currentInput.length > 0) {
-        score++;
+  
+      // ✅ Only add score for newly typed characters
+      const newChars = currentInput.length - previousInputLength;
+      if (newChars > 0) {
+        score += newChars;
         updateScoreDisplay();
       }
+      previousInputLength = currentInput.length;
     }
-  }
+  }  
 });
 
 function beep() {
