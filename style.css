@@ -88,6 +88,10 @@ input.error {
   gap: 4px;
 }
 
+#start-button {
+  margin-top: 40px;
+}
+
 .guess-actions {
   display: flex;
   justify-content: center;
