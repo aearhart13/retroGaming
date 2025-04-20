@@ -1,7 +1,7 @@
 console.log("✅ JavaScript loaded!");
 let score = 0;
 let strikes = 0;
-const maxStrikes = 5;
+const maxStrikes = 10;
 let previousInputLength = 0;
 
 const classicSongs = [
