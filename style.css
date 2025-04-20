@@ -161,7 +161,7 @@ code {
 .input-with-icon {
   position: relative;
   display: block; /* or flex if needed */
-  width: 80%;
+  width: 95%;
   margin: 0 auto;
 }
 
