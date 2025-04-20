@@ -368,13 +368,16 @@ function submitGuess() {
   const userGuess = document.getElementById('song-guess').value.trim().toLowerCase();
   const answer = correctAnswer.toLowerCase();
   const feedback = document.getElementById('guess-feedback');
-  
-  if (userGuess && answer.includes(userGuess) || userGuess.includes(answer)) {
+
+  const isCorrect = userGuess && (answer.includes(userGuess) || userGuess.includes(answer));
+  document.getElementById('relisten-button').style.display = 'none'; // Always hide after guess
+
+  if (isCorrect) {
     feedback.textContent = `🎉 Correct! It was '${correctAnswer}'! Total score: ${score}`;
     feedback.style.color = '#0f0';
 
     if (isRecoveryGuess) {
-      // ✨ Recover from strike-out
+      // ✅ Recover from strike-out
       strikes = maxStrikes - 1;
       updateStrikeDisplay();
       document.getElementById('current-line').textContent = `👍 You're back in the game! Keep typing: ${codeLines[currentLine]}`;
@@ -385,6 +388,7 @@ function submitGuess() {
       return;
     }
 
+    // ✅ Normal correct guess logic
     let wins = parseInt(localStorage.getItem('wins') || '0');
     wins++;
     localStorage.setItem('wins', wins);
@@ -393,20 +397,19 @@ function submitGuess() {
     }
     score += 10;
     updateScoreDisplay();
+
   } else {
+    feedback.textContent = `❌ Not quite! The song was '${correctAnswer}'.`;
+    feedback.style.color = '#f00';
+
     if (isRecoveryGuess) {
-      feedback.textContent = `❌ Not quite! The song was '${correctAnswer}'. Game over.`;
-      feedback.style.color = '#f00';
+      // ❌ Recovery failed — reset progress
       document.getElementById('code-input').disabled = true;
       guessBox.dataset.recovery = "false";
+      localStorage.setItem('wins', '0');
+      document.getElementById('mode-indicator').style.display = 'none';
     }
-    else {
-      feedback.textContent = `❌ Not quite! The song was '${correctAnswer}'.`;
-      feedback.style.color = '#f00';  
-    }
-    document.getElementById('relisten-button').style.display = 'none';    
   }
-  //updateUnlockStatus()
 }
 
 function relisten() {
