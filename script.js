@@ -318,6 +318,7 @@ document.getElementById('code-input').addEventListener('input', (event) => {
         document.getElementById('current-line').innerHTML =
           `<span class="strikeout-message">💥 Too many errors! You scored ${score} points before failing.</span>`;
         score = 0;
+        wins = 0;
         updateScoreDisplay();
         const guessBox = document.getElementById('guess-section');
         guessBox.style.display = 'block';
