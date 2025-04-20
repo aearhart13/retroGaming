@@ -173,7 +173,7 @@ code {
 #relisten-button {
   position: absolute;
   top: 50%;
-  right: -5px;
+  right: 10px;
   transform: translateY(-50%);
   background: transparent;
   border: none;
@@ -181,10 +181,12 @@ code {
   font-size: 18px;
   cursor: pointer;
   padding: 0;
-  display: flex; 
-  align-items: center; 
-  justify-content: center; 
-  height: 100%; 
+  display: inline-flex; /* shrink to icon size */
+  align-items: center;
+  justify-content: center;
+  width: auto;
+  height: auto;
+  line-height: 1;
 }
 
 #relisten-button:hover {
