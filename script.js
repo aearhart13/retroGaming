@@ -467,3 +467,4 @@ function updateStrikeDisplay() {
   document.getElementById('max-strikes').textContent = maxStrikes;
 }
 
+updateStrikeDisplay();
