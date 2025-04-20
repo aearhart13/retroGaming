@@ -305,6 +305,9 @@ document.getElementById('code-input').addEventListener('input', (event) => {
         guessBox.style.display = 'block';
         document.getElementById('song-guess').focus();
       });
+
+      document.getElementById('relisten-button').style.display = 'inline-block';
+      document.getElementById('relisten-button').disabled = false;
     }
   
   } else {
