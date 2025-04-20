@@ -308,41 +308,44 @@ document.getElementById('code-input').addEventListener('input', (event) => {
     }
   
   } else {
-    // Partial input
     if (!expected.startsWith(currentInput)) {
       inputBox.classList.add('error');
       document.getElementById('current-line').textContent = `❌ Incorrect. Try again: ${expected}`;
-      beep();
-      strikes++;
-      updateStrikeDisplay();
-      if (strikes >= maxStrikes) {
-        inputBox.disabled = true;
-        clearInterval(timer);
-        document.getElementById('current-line').innerHTML =
-          `<span class="strikeout-message">💥 Too many errors! You get one last chance to guess the song...</span>`;
-      
-        // Play what they typed so far
-        playSongFromInput(() => {
-          const guessBox = document.getElementById('guess-section');
-          guessBox.style.display = 'block';
-          document.getElementById('song-guess').focus();
-          guessBox.dataset.recovery = "true";
-          document.getElementById('relisten-button').style.display = 'inline-block';
-          document.getElementById('relisten-button').disabled = false;
-        });
-      }      
+    
+      // ✅ Only count a strike if the input got longer (not backspace)
+      if (currentInput.length >= previousInputLength) {
+        beep();
+        strikes++;
+        updateStrikeDisplay();
+    
+        if (strikes >= maxStrikes) {
+          inputBox.disabled = true;
+          clearInterval(timer);
+          document.getElementById('current-line').innerHTML =
+            `<span class="strikeout-message">💥 Too many errors! You get one last chance to guess the song...</span>`;
+    
+          playSongFromInput(() => {
+            const guessBox = document.getElementById('guess-section');
+            guessBox.style.display = 'block';
+            document.getElementById('song-guess').focus();
+            guessBox.dataset.recovery = "true";
+            document.getElementById('relisten-button').style.display = 'inline-block';
+            document.getElementById('relisten-button').disabled = false;
+          });
+        }
+      }
+    
     } else {
       inputBox.classList.remove('error');
       showNextLine();
-  
-      // ✅ Only add score for newly typed characters
+    
       const newChars = currentInput.length - previousInputLength;
       if (newChars > 0) {
         score += newChars;
         updateScoreDisplay();
       }
-      previousInputLength = currentInput.length;
     }
+    previousInputLength = currentInput.length;    
   }  
 });
 
