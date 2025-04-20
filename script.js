@@ -131,8 +131,6 @@ function startGame() {
 
   timeLeft = 30;
   currentLine = 0;
-  strikes = 0;
-  updateStrikeDisplay();
   updateScoreDisplay();
 
   document.getElementById('typing-section').style.display = 'block';
@@ -421,15 +419,24 @@ function submitGuess() {
   } else {
     feedback.textContent = `❌ Not quite! The song was '${correctAnswer}'.`;
     feedback.style.color = '#f00';
-
+  
     if (isRecoveryGuess) {
-      // ❌ Recovery failed — reset progress
+      // ❌ Recovery failed — FULL failure logic here
       document.getElementById('code-input').disabled = true;
       guessBox.dataset.recovery = "false";
-      localStorage.setItem('wins', '0');
       document.getElementById('mode-indicator').style.display = 'none';
+      localStorage.setItem('wins', '0');
+  
+      const finalScore = score;
+      // 🔁 Reset all relevant game state
+      strikes = 0;
+      score = 0;
+      updateStrikeDisplay();
+      updateScoreDisplay();
+  
+      feedback.textContent += ` Game over — you had ${finalScore} point${finalScore !== 1 ? 's' : ''} before failing.`;
     }
-  }
+  }  
 }
 
 function relisten() {
