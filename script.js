@@ -314,6 +314,9 @@ document.getElementById('code-input').addEventListener('input', (event) => {
           `<span class="strikeout-message">💥 Too many errors! You scored ${score} points before failing.</span>`;
         score = 0;
         updateScoreDisplay();
+        const guessBox = document.getElementById('guess-section');
+        guessBox.style.display = 'block';
+        document.getElementById('song-guess').focus();
       }
     } else {
       inputBox.classList.remove('error');
