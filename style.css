@@ -47,3 +47,14 @@ input.error {
   padding-top: 20px;
   margin-top: 20px;
 }
+
+.strikeout-message {
+  color: red;
+  font-weight: bold;
+  animation: flash 0.5s ease-in-out 3;
+}
+
+@keyframes flash {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}

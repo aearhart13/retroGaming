@@ -1,4 +1,7 @@
 console.log("✅ JavaScript loaded!");
+let score = 0;
+let strikes = 0;
+const maxStrikes = 5;
 
 const classicSongs = [
   {
@@ -111,7 +114,6 @@ function getAvailableSongs() {
   if (wins >= 3) {
     return classicSongs.concat(synthwaveSongs);
   }
-
   return classicSongs;
 }
 
@@ -124,6 +126,10 @@ function startGame() {
 
   timeLeft = 30;
   currentLine = 0;
+  strikes = 0;
+  updateStrikeDisplay();
+  score = 0;
+  updateScoreDisplay();
 
   document.getElementById('typing-section').style.display = 'block';
   document.getElementById('code-output').textContent = '';
@@ -276,28 +282,39 @@ document.getElementById('code-input').addEventListener('input', (event) => {
     currentLine++;
     event.target.value = '';
     inputBox.classList.remove('error');
+    score += expected.length;
+    updateScoreDisplay();
     document.getElementById('current-line').textContent = currentLine < codeLines.length
       ? `Type this: ${codeLines[currentLine]}`
       : '✅ All lines complete!';
     
-      if (currentLine === codeLines.length) {
-        clearInterval(timer);
-        inputBox.disabled = true;
-      
-        playSong(() => {
-          console.log("🎉 All lines typed. Showing guess section.");
-          const guessBox = document.getElementById('guess-section');
-          guessBox.style.display = 'block';
-          document.getElementById('song-guess').focus();
-        });
-      }
-             
+    if (currentLine === codeLines.length) {
+      clearInterval(timer);
+      inputBox.disabled = true;
+    
+      playSong(() => {
+        console.log("🎉 All lines typed. Showing guess section.");
+        const guessBox = document.getElementById('guess-section');
+        guessBox.style.display = 'block';
+        document.getElementById('song-guess').focus();
+      });
+    }      
   } else {
     // Check if it's a wrong input (but not just partially incomplete)
     if (!expected.startsWith(currentInput)) {
       inputBox.classList.add('error');
       document.getElementById('current-line').textContent = `❌ Incorrect. Try again: ${expected}`;
-      beep(); // ← Add this line
+      beep(); 
+      strikes++;
+      updateStrikeDisplay();
+      if (strikes >= maxStrikes) {
+        inputBox.disabled = true;
+        clearInterval(timer);
+        document.getElementById('current-line').innerHTML =
+          `<span class="strikeout-message">💥 Too many errors! You scored ${score} points before failing.</span>`;
+        score = 0;
+        updateScoreDisplay();
+      }
     } else {
       inputBox.classList.remove('error');
       showNextLine();
@@ -335,6 +352,8 @@ function submitGuess() {
     if (wins === 3) {
       alert("🎉 You unlocked the Synthwave Pack!");
     }
+    score += 10;
+    updateScoreDisplay();
   } else {
     feedback.textContent = `❌ Not quite! The song was '${correctAnswer}'.`;
     feedback.style.color = '#f00';
@@ -348,5 +367,11 @@ function updateUnlockStatus() {
     wins >= 3 ? "Unlocked Songs: Classics + Synthwave Pack" : `Unlocked Songs: Classics (${wins}/3 correct guesses)`;
 }
 
+function updateScoreDisplay() {
+  document.getElementById('score-display').textContent = score;
+}
 
+function updateStrikeDisplay() {
+  document.getElementById('strike-display').textContent = strikes;
+}
 
