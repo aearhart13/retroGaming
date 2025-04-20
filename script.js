@@ -434,9 +434,8 @@ function submitGuess() {
       updateStrikeDisplay();
       updateScoreDisplay();
   
-      feedback.textContent += ` Game over — you had ${finalScore} point${finalScore !== 1 ? 's' : ''} before failing.`;
+      feedback.innerHTML += `<br>💥 Game over — you had <strong>${finalScore} point${finalScore !== 1 ? 's' : ''}</strong> before failing.`;
       document.querySelector('#guess-section button[onclick="submitGuess()"]').style.display = 'none';
-    }
     }
   }  
 }

@@ -140,3 +140,22 @@ code {
   background-color: #111;
   border-color: #6f6;
 }
+
+.guess-prompt {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.guess-prompt p {
+  margin: 0;
+}
+
+.guess-actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 10px;
+}
