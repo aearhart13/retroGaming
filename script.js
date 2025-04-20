@@ -112,7 +112,7 @@ function getAvailableSongs() {
   console.log(`🏆 Player wins: ${wins}`);
 
   if (wins >= 3) {
-    return classicSongs.concat(synthwaveSongs);
+    return synthwaveSongs; // ✅ Synth-only mode after unlock
   }
   return classicSongs;
 }
@@ -123,12 +123,13 @@ function startGame() {
   const randomSong = availableSongs[Math.floor(Math.random() * availableSongs.length)];  
   codeLines = randomSong.codeLines;
   correctAnswer = randomSong.title;
+  const wins = parseInt(localStorage.getItem('wins') || '0');
+  document.getElementById('mode-indicator').style.display = wins >= 3 ? 'block' : 'none';
 
   timeLeft = 30;
   currentLine = 0;
   strikes = 0;
   updateStrikeDisplay();
-  score = 0;
   updateScoreDisplay();
 
   document.getElementById('typing-section').style.display = 'block';
@@ -144,7 +145,7 @@ function startGame() {
 
   showNextLine();
   startTimer();
-  updateUnlockStatus()
+  //updateUnlockStatus()
 }
 
 
@@ -321,6 +322,10 @@ document.getElementById('code-input').addEventListener('input', (event) => {
     } else {
       inputBox.classList.remove('error');
       showNextLine();
+      if (currentInput.length > 0) {
+        score++;
+        updateScoreDisplay();
+      }
     }
   }
 });
@@ -347,13 +352,13 @@ function submitGuess() {
   const feedback = document.getElementById('guess-feedback');
 
   if (userGuess && answer.includes(userGuess) || userGuess.includes(answer)) {
-    feedback.textContent = `🎉 Correct! It was '${correctAnswer}'!`;
+    feedback.textContent = `🎉 Correct! It was '${correctAnswer}'! Total score: ${score}`;
     feedback.style.color = '#0f0';
     let wins = parseInt(localStorage.getItem('wins') || '0');
     wins++;
     localStorage.setItem('wins', wins);
     if (wins === 3) {
-      alert("🎉 You unlocked the Synthwave Pack!");
+      alert("🎉 You unlocked the Synthwave Pack!\nGet ready for retro synth madness. 🎛️✨");
     }
     score += 10;
     updateScoreDisplay();
@@ -361,14 +366,14 @@ function submitGuess() {
     feedback.textContent = `❌ Not quite! The song was '${correctAnswer}'.`;
     feedback.style.color = '#f00';
   }
-  updateUnlockStatus()
+  //updateUnlockStatus()
 }
 
-function updateUnlockStatus() {
+/*function updateUnlockStatus() {
   const wins = parseInt(localStorage.getItem('wins') || '0');
   document.getElementById('unlocked-status').textContent =
     wins >= 3 ? "Unlocked Songs: Classics + Synthwave Pack" : `Unlocked Songs: Classics (${wins}/3 correct guesses)`;
-}
+}*/
 
 function updateScoreDisplay() {
   document.getElementById('score-display').textContent = score;
