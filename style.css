@@ -58,3 +58,8 @@ input.error {
   0%, 100% { opacity: 1; }
   50% { opacity: 0; }
 }
+
+#guess-section input,
+#guess-section button {
+  margin-top: 8px;
+}
