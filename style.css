@@ -35,7 +35,7 @@ button {
   vertical-align: middle;
 }
 
-#guess-section button {
+#guess-section button:not(#relisten-button) {
   display: block;
   margin: 6px auto;
   width: 200px; /* Or whatever matches your design */
