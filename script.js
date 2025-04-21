@@ -418,6 +418,10 @@ function submitGuess() {
     localStorage.setItem('wins', wins);
     if (wins === 3) {
       alert("🎉 You unlocked the Synthwave Pack!\nGet ready for retro synth madness. 🎛️✨");
+      score += 10;
+      updateScoreDisplay();
+      startGame();
+      return;
     }
     score += 10;
     updateScoreDisplay();
