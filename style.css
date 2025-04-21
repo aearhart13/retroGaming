@@ -172,23 +172,23 @@ code {
 
 #relisten-button {
   position: absolute;
-  top: 50%;
+  top: 0;
+  bottom: 0;
   right: 10px;
-  transform: translateY(-50%);
+  margin: auto;
   background: transparent;
   border: none;
   color: #0f0;
   font-size: 18px;
   cursor: pointer;
   padding: 0;
-  display: inline-flex;
+  display: flex;
   align-items: center;
   justify-content: center;
   width: auto !important;
-  height: auto;
+  height: 100%;
   line-height: 1;
 }
-
 #relisten-button:hover {
   color: #6f6;
 }
