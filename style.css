@@ -126,20 +126,6 @@ code {
   color: #0f0;
 }
 
-#relisten-button {
-  padding: 4px 8px;
-  font-size: 16px;
-  margin: 0;
-  background-color: transparent;
-  color: #0f0;
-  border: none;
-  cursor: pointer;
-}
-
-#relisten-button:hover {
-  color: #8f8;
-}
-
 .guess-prompt {
   display: flex;
   align-items: center;
