@@ -172,8 +172,8 @@ code {
 
 #relisten-button {
   position: absolute;
-  top: 0;
-  bottom: 0;
+  top: 0 !important;
+  bottom: 0 !important;
   right: 10px;
   margin: auto;
   background: transparent;
