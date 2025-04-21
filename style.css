@@ -175,7 +175,7 @@ code {
   top: 50%;
   right: 10px;
   transform: translateY(-50%);  
-  margin: 0;
+  margin: 0 !important;
   background: transparent;
   border: none;
   color: #0f0;
