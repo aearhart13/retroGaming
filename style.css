@@ -172,10 +172,9 @@ code {
 
 #relisten-button {
   position: absolute;
-  top: 0 !important;
-  bottom: 0 !important;
+  top: 50%;
   right: 10px;
-  margin: auto;
+  margin: 0;
   background: transparent;
   border: none;
   color: #0f0;
