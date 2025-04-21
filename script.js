@@ -193,6 +193,7 @@ function startTimer() {
         document.getElementById('song-guess').focus();
         document.getElementById('relisten-button').style.display = 'inline-block';
         document.getElementById('relisten-button').disabled = false;
+        document.querySelector('#guess-section button[onclick="submitGuess()"]').style.display = 'inline-block';
       });
     }
   }, 1000);
@@ -306,6 +307,7 @@ document.getElementById('code-input').addEventListener('input', (event) => {
         const guessBox = document.getElementById('guess-section');
         guessBox.style.display = 'block';
         document.getElementById('song-guess').focus();
+        document.querySelector('#guess-section button[onclick="submitGuess()"]').style.display = 'inline-block';
       });
 
       document.getElementById('relisten-button').style.display = 'inline-block';
