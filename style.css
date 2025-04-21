@@ -185,7 +185,7 @@ code {
   align-items: center;
   justify-content: center;
   width: auto !important;
-  height: 100%;
+  height: auto;
   line-height: 1;
 }
 #relisten-button:hover {
