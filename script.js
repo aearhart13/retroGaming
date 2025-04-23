@@ -486,6 +486,7 @@ function resetGame() {
   strikes = 0;
   updateScoreDisplay();
   updateStrikeDisplay();
+  clearInterval(timer);
   document.getElementById('mode-indicator').style.display = 'none';
   document.getElementById('guess-feedback').textContent = '';
   document.getElementById('start-button').style.display = 'inline-block';
@@ -493,6 +494,6 @@ function resetGame() {
   document.getElementById('guess-section').style.display = 'none';
   document.getElementById('code-output').textContent = '';
   document.getElementById('code-input').value = '';
-  alert("🔄 Game reset! Start fresh when you're ready.");
+  alert("🔄 Game reset! Start fresh when you're ready."); 
 }
 
