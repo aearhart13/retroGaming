@@ -347,12 +347,6 @@ document.getElementById('code-input').addEventListener('input', (event) => {
     } else {
       inputBox.classList.remove('error');
       showNextLine();
-    
-      const newChars = currentInput.length - previousInputLength;
-      if (newChars > 0) {
-        score += newChars;
-        updateScoreDisplay();
-      }
     }
     previousInputLength = currentInput.length;    
   }  
