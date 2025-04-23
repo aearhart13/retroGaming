@@ -294,9 +294,8 @@ document.getElementById('code-input').addEventListener('input', (event) => {
     inputBox.classList.remove('error');
     
     // Add points for completed line (already includes keystrokes)
-    score += expected.length - previousInputLength;
+    score += 1; // One point per line
     updateScoreDisplay();
-    previousInputLength = 0;
   
     showNextLine();
   
