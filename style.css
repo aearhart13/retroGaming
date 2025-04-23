@@ -185,19 +185,20 @@ code {
   background: none;
   color: #6f6;
   border: none;
-  font-size: 14px;
-  text-decoration: underline;
+  font-size: 20px;
   cursor: pointer;
-  font-style: italic;
-  opacity: 0.7;
+  opacity: 0.4;
   z-index: 999;
   padding: 0;
+  line-height: 1;
 }
 
 #reset-button:hover {
   opacity: 1;
   color: #8f8;
-  text-decoration: none;
+  transform: rotate(20deg);
+  transition: transform 0.2s ease, color 0.2s ease;
 }
+
 
 
