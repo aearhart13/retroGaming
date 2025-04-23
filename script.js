@@ -3,6 +3,11 @@ let score = 0;
 let strikes = 0;
 const maxStrikes = 10;
 let previousInputLength = 0;
+let timer;
+let timeLeft = 30;
+let currentLine = 0;
+let codeLines = [];
+let correctAnswer = '';
 
 const classicSongs = [
   {
@@ -102,12 +107,6 @@ const synthwaveSongs = [
   }  
 ];
 
-let timer;
-let timeLeft = 30;
-let currentLine = 0;
-let codeLines = [];
-let correctAnswer = '';
-
 function getAvailableSongs() {
   const wins = parseInt(localStorage.getItem('wins') || '0');
   console.log(`🏆 Player wins: ${wins}`);
@@ -124,14 +123,17 @@ function startGame() {
   const randomSong = availableSongs[Math.floor(Math.random() * availableSongs.length)];  
   codeLines = randomSong.codeLines;
   correctAnswer = randomSong.title;
+
   const wins = parseInt(localStorage.getItem('wins') || '0');
   document.getElementById('mode-indicator').style.display = wins >= 3 ? 'block' : 'none';
   document.getElementById('relisten-button').style.display = 'none';
   document.getElementById('max-strikes').textContent = maxStrikes;
 
-  timeLeft = 30;
+  timeLeft = getTimerDuration();
   currentLine = 0;
   updateScoreDisplay();
+  updateStrikeDisplay();
+  document.getElementById('timer').textContent = timeLeft;
 
   document.getElementById('typing-section').style.display = 'block';
   document.getElementById('code-output').textContent = '';
@@ -487,6 +489,8 @@ function resetGame() {
   updateScoreDisplay();
   updateStrikeDisplay();
   clearInterval(timer);
+  timeLeft = getTimerDuration();
+  document.getElementById('timer').textContent = timeLeft;
   document.getElementById('mode-indicator').style.display = 'none';
   document.getElementById('guess-feedback').textContent = '';
   document.getElementById('start-button').style.display = 'inline-block';
@@ -497,3 +501,7 @@ function resetGame() {
   alert("🔄 Game reset! Start fresh when you're ready."); 
 }
 
+function getTimerDuration() {
+  const wins = parseInt(localStorage.getItem('wins') || '0');
+  return wins >= 3 ? 45 : 30; // Synthwave gets more time
+}
