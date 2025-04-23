@@ -415,14 +415,9 @@ function submitGuess() {
     localStorage.setItem('wins', wins);
     if (wins === 3) {
       alert("🎉 You unlocked the Synthwave Pack!\nGet ready for retro synth madness. 🎛️✨");
-      score += 10;
-      updateScoreDisplay();
       startGame();
       return;
     }
-    score += 10;
-    updateScoreDisplay();
-
   } else {
     feedback.textContent = `❌ Not quite! The song was '${correctAnswer}'.`;
     feedback.style.color = '#f00';
