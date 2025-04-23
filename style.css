@@ -178,4 +178,17 @@ code {
 #relisten-button:hover {
   color: #6f6;
 }
+#reset-button {
+  margin-top: 10px;
+  background-color: #333;
+  color: #f00;
+  border: 1px solid #f00;
+  padding: 8px 16px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+#reset-button:hover {
+  background-color: #500;
+}
 

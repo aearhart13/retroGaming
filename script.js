@@ -477,3 +477,24 @@ function updateStrikeDisplay() {
 document.addEventListener('DOMContentLoaded', () => {
   updateStrikeDisplay();
 });
+
+function resetGame() {
+  // Reset all game state
+  score = 0;
+  strikes = 0;
+  localStorage.setItem('wins', '0');
+
+  // Clear UI
+  document.getElementById('code-output').textContent = '';
+  document.getElementById('current-line').textContent = '';
+  document.getElementById('guess-feedback').textContent = '';
+  document.getElementById('song-guess').value = '';
+  document.getElementById('typing-section').style.display = 'none';
+  document.getElementById('guess-section').style.display = 'none';
+  document.getElementById('mode-indicator').style.display = 'none';
+  document.getElementById('start-button').style.display = 'inline-block';
+
+  // Reset displays
+  updateScoreDisplay();
+  updateStrikeDisplay();
+}
