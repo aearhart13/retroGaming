@@ -437,7 +437,12 @@ function submitGuess() {
       updateScoreDisplay();
   
       feedback.innerHTML += `<br>💥 Game over — you had <strong>${finalScore} point${finalScore !== 1 ? 's' : ''}</strong> before failing.`;
-      document.querySelector('#guess-section button[onclick="submitGuess()"]').style.display = 'none';
+      const wantsRestart = confirm("💥 Game over — you've used all your strikes.\nWould you like to restart?");
+      if (wantsRestart) {
+        resetGame();
+      } else {
+        document.getElementById('start-button').style.display = 'inline-block';
+      }
     }
   }  
 }
