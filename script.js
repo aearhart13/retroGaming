@@ -379,6 +379,8 @@ function submitGuess() {
   document.getElementById('relisten-button').style.display = 'none'; // Always hide after guess
 
   if (isCorrect) {
+    score += 10;
+    updateScoreDisplay();
     feedback.textContent = `🎉 Correct! It was '${correctAnswer}'! Total score: ${score}`;
     feedback.style.color = '#0f0';
 
