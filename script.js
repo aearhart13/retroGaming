@@ -478,22 +478,21 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function resetGame() {
-  // Reset all game state
+  const confirmed = confirm("This will reset your progress and unlocks. Are you sure?");
+  if (!confirmed) return;
+
+  localStorage.setItem('wins', '0');
   score = 0;
   strikes = 0;
-  localStorage.setItem('wins', '0');
-
-  // Clear UI
-  document.getElementById('code-output').textContent = '';
-  document.getElementById('current-line').textContent = '';
-  document.getElementById('guess-feedback').textContent = '';
-  document.getElementById('song-guess').value = '';
-  document.getElementById('typing-section').style.display = 'none';
-  document.getElementById('guess-section').style.display = 'none';
-  document.getElementById('mode-indicator').style.display = 'none';
-  document.getElementById('start-button').style.display = 'inline-block';
-
-  // Reset displays
   updateScoreDisplay();
   updateStrikeDisplay();
+  document.getElementById('mode-indicator').style.display = 'none';
+  document.getElementById('guess-feedback').textContent = '';
+  document.getElementById('start-button').style.display = 'inline-block';
+  document.getElementById('typing-section').style.display = 'none';
+  document.getElementById('guess-section').style.display = 'none';
+  document.getElementById('code-output').textContent = '';
+  document.getElementById('code-input').value = '';
+  alert("🔄 Game reset! Start fresh when you're ready.");
 }
+
