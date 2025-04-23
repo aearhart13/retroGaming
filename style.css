@@ -180,19 +180,24 @@ code {
 }
 #reset-button {
   position: fixed;
-  bottom: 20px;
+  bottom: 16px;
   right: 20px;
-  background-color: #111;
-  color: #f00;
-  border: 1px solid #f00;
-  padding: 8px 12px;
+  background: none;
+  color: #6f6;
+  border: none;
   font-size: 14px;
+  text-decoration: underline;
   cursor: pointer;
+  font-style: italic;
+  opacity: 0.7;
   z-index: 999;
+  padding: 0;
 }
 
 #reset-button:hover {
-  background-color: #300;
+  opacity: 1;
+  color: #8f8;
+  text-decoration: none;
 }
 
 
