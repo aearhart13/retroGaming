@@ -428,16 +428,15 @@ function submitGuess() {
       guessBox.dataset.recovery = "false";
       document.getElementById('mode-indicator').style.display = 'none';
       localStorage.setItem('wins', '0');
-  
+    
       const finalScore = score;
       // 🔁 Reset all relevant game state
       strikes = 0;
       score = 0;
       updateStrikeDisplay();
       updateScoreDisplay();
-  
-      feedback.innerHTML += `<br>💥 Game over — you had <strong>${finalScore} point${finalScore !== 1 ? 's' : ''}</strong> before failing.`;
-      const wantsRestart = confirm("💥 Game over — you've used all your strikes.\nWould you like to restart?");
+    
+      const wantsRestart = confirm(`💥 Game over — you had ${finalScore} point${finalScore !== 1 ? 's' : ''}.\n\nStart over?`);
       if (wantsRestart) {
         resetGame();
       } else {
