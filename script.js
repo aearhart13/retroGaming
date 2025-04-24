@@ -376,7 +376,7 @@ function submitGuess() {
   const feedback = document.getElementById('guess-feedback');
 
   const isCorrect = userGuess && (answer.includes(userGuess) || userGuess.includes(answer));
-  document.getElementById('relisten-button').style.display = 'none'; // Always hide after guess
+  document.getElementById('relisten-button').style.display = 'none';
 
   if (isCorrect) {
     score += 10;
@@ -385,65 +385,59 @@ function submitGuess() {
     feedback.style.color = '#0f0';
 
     if (isRecoveryGuess) {
-      // 🎉 Recovered! Reward with next song
+      // Recovered from strikeout!
       strikes = maxStrikes - 1;
       updateStrikeDisplay();
       guessBox.style.display = 'none';
       guessBox.dataset.recovery = "false";
-      document.getElementById('relisten-button').style.display = 'none';
-    
-      // Show fancy transition message
-      const feedbackText = `✅ Correct! Moving to the next song...`;
-      feedback.textContent = feedbackText;
-      feedback.style.color = '#0f0';
 
-      // Optional flash animation
+      feedback.textContent = `✅ Correct! Moving to the next song...`;
       feedback.classList.add('next-transition');
 
       setTimeout(() => {
         feedback.textContent = '';
         feedback.classList.remove('next-transition');
-        startGame(); // 🎵 Go!
+        startGame();
       }, 2000);
-        
-      return;
-    }    
 
-    // ✅ Normal correct guess logic
+      return;
+    }
+
+    // Normal correct guess
     let wins = parseInt(localStorage.getItem('wins') || '0');
     wins++;
     localStorage.setItem('wins', wins);
+
     if (wins === 3) {
       alert("🎉 You unlocked the Synthwave Pack!\nGet ready for retro synth madness. 🎛️✨");
       startGame();
       return;
     }
+
+  } else if (isRecoveryGuess) {
+    // Recovery failed — game over
+    document.getElementById('code-input').disabled = true;
+    guessBox.dataset.recovery = "false";
+    document.getElementById('mode-indicator').style.display = 'none';
+    localStorage.setItem('wins', '0');
+
+    const finalScore = score;
+    strikes = 0;
+    score = 0;
+    updateStrikeDisplay();
+    updateScoreDisplay();
+
+    const wantsRestart = confirm(`💥 Game over — you had ${finalScore} point${finalScore !== 1 ? 's' : ''}.\n\nStart over?`);
+    if (wantsRestart) {
+      resetGame();
+    } else {
+      document.getElementById('start-button').style.display = 'inline-block';
+    }
   } else {
+    // Normal incorrect guess (not in recovery)
     feedback.textContent = `❌ Not quite! The song was '${correctAnswer}'.`;
     feedback.style.color = '#f00';
-  
-    if (isRecoveryGuess) {
-      // ❌ Recovery failed — FULL failure logic here
-      document.getElementById('code-input').disabled = true;
-      guessBox.dataset.recovery = "false";
-      document.getElementById('mode-indicator').style.display = 'none';
-      localStorage.setItem('wins', '0');
-    
-      const finalScore = score;
-      // 🔁 Reset all relevant game state
-      strikes = 0;
-      score = 0;
-      updateStrikeDisplay();
-      updateScoreDisplay();
-    
-      const wantsRestart = confirm(`💥 Game over — you had ${finalScore} point${finalScore !== 1 ? 's' : ''}.\n\nStart over?`);
-      if (wantsRestart) {
-        resetGame();
-      } else {
-        document.getElementById('start-button').style.display = 'inline-block';
-      }
-    }
-  }  
+  }
 }
 
 function relisten() {
