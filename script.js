@@ -8,6 +8,8 @@ let timeLeft = 30;
 let currentLine = 0;
 let codeLines = [];
 let correctAnswer = '';
+let playedSongs = [];
+
 
 const classicSongs = [
   {
@@ -120,7 +122,16 @@ function getAvailableSongs() {
 function startGame() {
   document.getElementById('start-button').style.display = 'none';
   const availableSongs = getAvailableSongs();
-  const randomSong = availableSongs[Math.floor(Math.random() * availableSongs.length)];  
+  const remainingSongs = availableSongs.filter(song => !playedSongs.includes(song.title));
+
+  if (remainingSongs.length === 0) {
+    alert("🎉 You've played all songs in this pack!\nResetting the list...");
+    playedSongs = []; // Clear memory if all songs used
+    startGame();
+    return;
+  }
+  const randomSong = remainingSongs[Math.floor(Math.random() * remainingSongs.length)];
+  playedSongs.push(randomSong.title);
   codeLines = randomSong.codeLines;
   correctAnswer = randomSong.title;
 
@@ -483,6 +494,8 @@ function resetGame() {
   localStorage.setItem('wins', '0');
   score = 0;
   strikes = 0;
+  playedSongs = [];
+
   updateScoreDisplay();
   updateStrikeDisplay();
   clearInterval(timer);
