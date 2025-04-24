@@ -378,26 +378,31 @@ function submitGuess() {
   const isCorrect = userGuess && (answer.includes(userGuess) || userGuess.includes(answer));
   document.getElementById('relisten-button').style.display = 'none';
 
+  const submitBtn = document.querySelector('#guess-section button[onclick="submitGuess()"]');
+  const playAgainBtn = document.querySelector('#guess-section button[onclick="startGame()"]');
+
   if (isCorrect) {
     score += 10;
     updateScoreDisplay();
 
     if (isRecoveryGuess) {
-      // ✅ Recovered from last chance
+      // ✅ Recovered on last chance
       strikes = maxStrikes - 1;
       updateStrikeDisplay();
       guessBox.dataset.recovery = "false";
 
-      feedback.textContent = `🎉 Correct! It was '${correctAnswer}'! You survived with ${score} point${score !== 1 ? 's' : ''}.`;
+      feedback.textContent = `🎉 Correct! It was '${correctAnswer}'! You survived with ${score} point${score !== 1 ? 's' : ''}. Click 'Play Again' to continue.`;
       feedback.style.color = '#0f0';
 
-      // Let them click "Play Again" manually
-      document.querySelector('#guess-section button[onclick="submitGuess()"]').style.display = 'none';
-      document.querySelector('#guess-section button[onclick="startGame()"]').style.display = 'inline-block';
+      submitBtn.style.display = 'none';
+      playAgainBtn.style.display = 'inline-block';
       return;
     }
 
-    // Normal correct guess
+    // ✅ Normal correct guess
+    feedback.textContent = `🎉 Correct! It was '${correctAnswer}'! Total score: ${score}`;
+    feedback.style.color = '#0f0';
+
     let wins = parseInt(localStorage.getItem('wins') || '0');
     wins++;
     localStorage.setItem('wins', wins);
@@ -408,8 +413,14 @@ function submitGuess() {
       return;
     }
 
-  } else if (isRecoveryGuess) {
-    // Recovery failed — game over
+    submitBtn.style.display = 'none';
+    playAgainBtn.style.display = 'inline-block';
+    return;
+  }
+
+  // ❌ Incorrect
+  if (isRecoveryGuess) {
+    // 💥 Recovery failed — full game over
     document.getElementById('code-input').disabled = true;
     guessBox.dataset.recovery = "false";
     document.getElementById('mode-indicator').style.display = 'none';
@@ -428,9 +439,12 @@ function submitGuess() {
       document.getElementById('start-button').style.display = 'inline-block';
     }
   } else {
-    // Normal incorrect guess (not in recovery)
+    // ❌ Regular incorrect guess
     feedback.textContent = `❌ Not quite! The song was '${correctAnswer}'.`;
     feedback.style.color = '#f00';
+
+    submitBtn.style.display = 'none';
+    playAgainBtn.style.display = 'inline-block';
   }
 }
 
