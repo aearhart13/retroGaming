@@ -381,25 +381,19 @@ function submitGuess() {
   if (isCorrect) {
     score += 10;
     updateScoreDisplay();
-    feedback.textContent = `🎉 Correct! It was '${correctAnswer}'! Total score: ${score}`;
-    feedback.style.color = '#0f0';
 
     if (isRecoveryGuess) {
-      // Recovered from strikeout!
+      // ✅ Recovered from last chance
       strikes = maxStrikes - 1;
       updateStrikeDisplay();
-      guessBox.style.display = 'none';
       guessBox.dataset.recovery = "false";
 
-      feedback.textContent = `✅ Correct! Moving to the next song...`;
-      feedback.classList.add('next-transition');
+      feedback.textContent = `🎉 Correct! It was '${correctAnswer}'! You survived with ${score} point${score !== 1 ? 's' : ''}.`;
+      feedback.style.color = '#0f0';
 
-      setTimeout(() => {
-        feedback.textContent = '';
-        feedback.classList.remove('next-transition');
-        startGame();
-      }, 2000);
-
+      // Let them click "Play Again" manually
+      document.querySelector('#guess-section button[onclick="submitGuess()"]').style.display = 'none';
+      document.querySelector('#guess-section button[onclick="startGame()"]').style.display = 'inline-block';
       return;
     }
 
