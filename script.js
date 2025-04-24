@@ -53,16 +53,6 @@ const classicSongs = [
       'PLAY "Bb Bb A F G F"'
     ]
   },
-  {
-    title: "Row Row Row Your Boat",
-    tempo: 520,
-    codeLines: [
-      'PLAY "C C C D E"',
-      'PLAY "E D E F G"',
-      'PLAY "C C C G G"',
-      'PLAY "E E D"'
-    ]
-  },
    {
     title: "Jingle Bells",
     tempo: 420,
