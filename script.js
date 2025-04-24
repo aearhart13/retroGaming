@@ -9,11 +9,12 @@ let currentLine = 0;
 let codeLines = [];
 let correctAnswer = '';
 let playedSongs = [];
-
+let noteDuration = 500;
 
 const classicSongs = [
   {
     title: "Mary Had a Little Lamb",
+    tempo: 500,
     codeLines: [
       'PLAY "E D C D"',
       'PLAY "E E E"',
@@ -26,6 +27,7 @@ const classicSongs = [
   },
   {
     title: "Twinkle Twinkle Little Star",
+    tempo: 550,
     codeLines: [
       'PLAY "C C G G"',
       'PLAY "A A G"',
@@ -43,6 +45,7 @@ const classicSongs = [
   },
   {
     title: "Happy Birthday",
+    tempo: 450,
     codeLines: [
       'PLAY "C C D C F E"',
       'PLAY "C C D C G F"',
@@ -52,6 +55,7 @@ const classicSongs = [
   },
   {
     title: "Row Row Row Your Boat",
+    tempo: 520,
     codeLines: [
       'PLAY "C C C D E"',
       'PLAY "E D E F G"',
@@ -61,6 +65,7 @@ const classicSongs = [
   },
    {
     title: "Jingle Bells",
+    tempo: 420,
     codeLines: [
       'PLAY "E E E"',
       'PLAY "E E E"',
@@ -73,6 +78,7 @@ const classicSongs = [
 const synthwaveSongs = [
   {
     title: "Seven Nation Army",
+    tempo: 400,
     codeLines: [
       'PLAY "E E G E D C B"',
       'PLAY "E E G E D C B"',
@@ -82,6 +88,7 @@ const synthwaveSongs = [
   },
   {
     title: "Take On Me",
+    tempo: 350,
     codeLines: [
       'PLAY "B D# E F# E D# B"',
       'PLAY "B D# E F# E D# C#"',
@@ -91,6 +98,7 @@ const synthwaveSongs = [
   },
   {
     title: "Sweet Dreams",
+    tempo: 375,
     codeLines: [
       'PLAY "C C C C A# A# G G"',
       'PLAY "F F G G A# A# C C"',
@@ -100,13 +108,24 @@ const synthwaveSongs = [
   },
   {
     title: "Running Up That Hill",
+    tempo: 420,
     codeLines: [
       'PLAY "C D F G F D"',
       'PLAY "C D F G A G"',
       'PLAY "F G A G F D"',
       'PLAY "C C C C C"'
     ]
-  }  
+  }, 
+  {
+    title: "E-Pro",
+    tempo: 300,
+    codeLines: [
+      'PLAY "D D D F D F"',
+      'PLAY "D D D F D F"',
+      'PLAY "G G G A G A"',
+      'PLAY "F F F G F D"'
+    ]
+  }
 ];
 
 function getAvailableSongs() {
@@ -134,6 +153,7 @@ function startGame() {
   playedSongs.push(randomSong.title);
   codeLines = randomSong.codeLines;
   correctAnswer = randomSong.title;
+  noteDuration = randomSong.tempo || 500;
 
   const wins = parseInt(localStorage.getItem('wins') || '0');
   document.getElementById('mode-indicator').style.display = wins >= 3 ? 'block' : 'none';
@@ -214,7 +234,6 @@ function startTimer() {
 
 function playSong(onFinished) {
   const melody = codeLines.flatMap(line => line.slice(6, -1).split(' '));
-  const noteDuration = 500;
   const audioContext = new (window.AudioContext || window.webkitAudioContext)();
 
   if (melody.length === 0) {
@@ -248,7 +267,6 @@ function playSongFromInput(onFinished) {
     .filter(line => line.startsWith('PLAY'));
     
   const melody = songCode.flatMap(line => line.slice(6, -1).split(' '));
-  const noteDuration = 500;
   const audioContext = new (window.AudioContext || window.webkitAudioContext)();
 
   if (melody.length === 0) {
